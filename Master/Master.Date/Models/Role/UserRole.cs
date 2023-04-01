@@ -4,10 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Master.Data.Models.Account;
 using Master.Domain.MultyTenants;
 using Microsoft.AspNetCore.Identity;
 
-namespace Master.Data.Models
+namespace Master.Data.Models.Role
 {
     public class UserRole : IdentityRole<int>, IAuditedEntity
     {

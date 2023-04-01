@@ -7,9 +7,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Lila.Platform.Shared;
 using Master.Data.Models;
+using Master.Data.Models.Account;
+using Master.Data.Models.Role;
 using Master.Domain.MultyTenants;
 using Master.Shared;
 using Master.Shared.Enums;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -62,12 +65,12 @@ namespace Master.Data
 
 
 
-            //builder.Entity<UserAccount>()
-            //    .HasMany(x => x.UserRoles)
-            //    .WithMany(x => x.UserAccounts)
-            //    .UsingEntity<IdentityUserRole<int>>(
-            //        r => r.HasOne<UserRole>().WithMany().HasForeignKey(x => x.RoleId),
-            //        l => l.HasOne<UserAccount>().WithMany().HasForeignKey(x => x.UserId));
+            builder.Entity<UserAccount>()
+                .HasMany(x => x.UserRoles)
+                .WithMany(x => x.UserAccounts)
+                .UsingEntity<IdentityUserRole<int>>(
+                    r => r.HasOne<UserRole>().WithMany().HasForeignKey(x => x.RoleId),
+                    l => l.HasOne<UserAccount>().WithMany().HasForeignKey(x => x.UserId));
 
             builder.Entity<UserRole>()
                 .HasMany(x => x.Claims)

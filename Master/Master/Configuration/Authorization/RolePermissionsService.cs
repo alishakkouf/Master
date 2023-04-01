@@ -1,4 +1,5 @@
-﻿using Master.Data.Models;
+﻿using Master.Data.Models.Account;
+using Master.Data.Models.Role;
 using Master.Shared;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;

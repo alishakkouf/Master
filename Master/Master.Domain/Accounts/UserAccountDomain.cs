@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Master.Data.Models.Role;
 using Master.Shared.Enums;
 
 namespace Master.Domain.Accounts
@@ -19,15 +20,7 @@ namespace Master.Domain.Accounts
 
         public string PhoneNumber { get; set; }
 
-        public string PhoneCountryCode { get; set; }
-
-        public bool PhoneNumberConfirmed { get; set; }
-
         public string Email { get; set; }
-
-        public string ImageRelativePath { get; set; }
-
-        public string ImageUrl { get; set; }
 
         public DateTime? DateOfBirth { get; set; }
 
@@ -40,28 +33,7 @@ namespace Master.Domain.Accounts
         /// </summary>
         public string Role { get; set; }
 
-        //public RoleDomain RoleDomain { get; set; }
-
-        /// <summary>
-        /// Position (Role) of the user
-        /// </summary>
-        public string Position => Role;
-
         public string FullName => $"{FirstName} {LastName}";        
-
-        public bool? IsDeleted { get; set; }
-
-        public bool IsActive { get; set; }
-
-        public string ConfirmationCode { get; set; }
-
-        public DateTime? ConfirmationCodeEndDate { get; set; }
-
-        public DateTime? LastLogin { get; set; }
-
-        //public EmployeeInfoDomain EmployeeInfo { get; set; }
-
-        public int? TenantId { get; set; }
 
     }
 }
