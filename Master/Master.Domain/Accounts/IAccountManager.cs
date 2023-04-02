@@ -9,5 +9,7 @@ namespace Master.Domain.Accounts
     public interface IAccountManager
     {
         Task<TokenDomain> LoginAsync(string username, string password);
+
+        Task<RegistrationResult> RegisterAsync(RegisterInputCommand command);
     }
 }

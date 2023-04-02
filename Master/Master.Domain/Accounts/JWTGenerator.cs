@@ -42,8 +42,8 @@ namespace Master.Domain.Accounts
 
             return new TokenDomain
             {
-                AccessToken = tok, //"Bearer " + token,
-                ExpiresIn = DateTime.Now.AddDays(1).Subtract(DateTime.Now).Seconds,
+                AccessToken = tok,
+                ExpiresIn = 86400
             };
         }
 

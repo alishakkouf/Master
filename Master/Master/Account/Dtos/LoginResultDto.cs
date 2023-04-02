@@ -11,10 +11,5 @@
         /// The bearer access token (expiration equals ExpiresIn)
         /// </summary>
         public string AccessToken { get; set; }
-
-        /// <summary>
-        /// The bearer refresh token, which can be used only once before it expires (another expiration, not ExpiresIn)
-        /// </summary>
-        public string RefreshToken { get; set; }
     }
 }

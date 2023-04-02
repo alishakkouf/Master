@@ -16,37 +16,17 @@ namespace Master.Domain.Authorization
                     Permissions.ListAll
                 },
                 {
-                    StaticRoleNames.Doctor,
+                    StaticRoleNames.Passenger,
                     new []
                     {
                         Permissions.Appointment.View,
-                        Permissions.Appointment.Create,
-                        Permissions.Appointment.Update,
-                        Permissions.Appointment.Delete,
-                        Permissions.Appointment.ViewCalendarByDate,
 
-                        Permissions.Patient.View,
-                        Permissions.Patient.Create,
-                        Permissions.Patient.Update,
-
-                        Permissions.Product.View,
-                        Permissions.Product.Create,
-                        Permissions.Product.Update,
-
-                        Permissions.Service.View,
-                        Permissions.Service.Create,
-                        Permissions.Service.Update,
-
-                        Permissions.Attachment.Create,
-                        Permissions.Attachment.Delete,
-
-                        Permissions.Employee.View
                     }
-                },
-                {
-                    StaticRoleNames.Patient,
-                    new string[0]
-                },
+                }
+                //{
+                //    StaticRoleNames.,
+                //    new string[0]
+                //},
             };
     }
 }

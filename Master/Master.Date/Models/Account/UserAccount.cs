@@ -6,11 +6,12 @@ using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Master.Data.Models.Role;
 using Master.Domain.MultyTenants;
 using Master.Shared.Enums;
 using Microsoft.AspNetCore.Identity;
 
-namespace Master.Data.Models
+namespace Master.Data.Models.Account
 {
     public class UserAccount : IdentityUser<int>, IAuditedEntity
     {
@@ -25,12 +26,6 @@ namespace Master.Data.Models
         [Required]
         [StringLength(200)]
         public override string PhoneNumber { get; set; }
-
-        [StringLength(10)]
-        public string PhoneCountryCode { get; set; }
-
-        [StringLength(1000)]
-        public string ImageRelativePath { get; set; }
 
         public DateTime? DateOfBirth { get; set; }
 

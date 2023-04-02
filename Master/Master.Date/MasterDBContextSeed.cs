@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Channels;
 using System.Threading.Tasks;
 using Master.Data.Models;
+using Master.Data.Models.Account;
+using Master.Data.Models.Role;
 using Master.Domain.Authorization;
 using Master.Domain.Settings;
 using Master.Shared;
@@ -57,7 +59,7 @@ namespace Master.Data
             var role = await context.Roles.IgnoreQueryFilters().FirstOrDefaultAsync(x => x.Name == Constants.SuperAdminRoleName);
             if (role == null)
             {
-                role = new UserRole(Constants.SuperAdminRoleName) { IsActive = true, TenantId = null };
+                role = new UserRole(Constants.SuperAdminRoleName) { IsActive = true, TenantId = null ,Description = ""};
                 await roleManager.CreateAsync(role);
             }
 
@@ -80,40 +82,19 @@ namespace Master.Data
             }
         }
 
-        /// <summary>.
-        /// Seed online patient role. 
-        /// </summary>
-        internal static async Task SeedOnlinePatientRoleAsync(MasterDbContext context, RoleManager<UserRole> roleManager)
-        {
-            var role = await context.Roles.IgnoreQueryFilters().FirstOrDefaultAsync(x =>
-                x.Name == StaticRoleNames.Patient && x.TenantId == null);
-            if (role == null) 
-            {
-                role = new UserRole(StaticRoleNames.Patient) { IsActive = true, TenantId = null };
-                await roleManager.CreateAsync(role);
-            }
-        }
-
         /// <summary>
         /// Seed static roles and add permissions claims to them.
         /// </summary>
-        internal static async Task SeedStaticRolesAsync(RoleManager<UserRole> roleManager, Tenant tenant)
+        internal static async Task SeedStaticRolesAsync(RoleManager<UserRole> roleManager/*, Tenant tenant*/)
         {
             foreach (var rolePermission in StaticRolePermissions.Roles)
             {
-                // No need for Patient Permission in Tenant
-                if (rolePermission.Key.ToUpper() == StaticRoleNames.Patient.ToUpper())
-                    continue;
-
-                var role = await roleManager.Roles.IgnoreQueryFilters().FirstOrDefaultAsync(x =>
-                    x.NormalizedName == rolePermission.Key.ToUpper() && x.TenantId == tenant.Id);
+                var role = await roleManager.Roles/*.IgnoreQueryFilters()*/.FirstOrDefaultAsync(x =>
+                    x.NormalizedName == rolePermission.Key.ToUpper() /*&& x.TenantId == tenant.Id*/);
 
                 if (role == null)
                 {
-                    role = new UserRole(rolePermission.Key) { IsActive = true, TenantId = tenant.Id };
-
-                    if (role.Name == StaticRoleNames.Doctor)
-                        role.IsDoctor = true;
+                    role = new UserRole(rolePermission.Key) { IsActive = true, Description = ""/*, TenantId = tenant.Id*/ };
 
                     await roleManager.CreateAsync(role);
 
@@ -176,20 +157,19 @@ namespace Master.Data
         //        await context.SaveChangesAsync();
         //}
 
-        internal static async Task SeedDefaultUserAsync(UserManager<UserAccount> userManager, RoleManager<UserRole> roleManager, Tenant tenant)
+        internal static async Task SeedDefaultUserAsync(UserManager<UserAccount> userManager, RoleManager<UserRole> roleManager/*, Tenant tenant*/)
         {
             var adminRole = await roleManager.Roles.IgnoreQueryFilters()
                 .FirstOrDefaultAsync(x => x.Name == StaticRoleNames.Administrator/* && x.TenantId == tenant.Id*/);
 
-            var adminUser = await userManager.Users.IgnoreQueryFilters()
-                .FirstOrDefaultAsync(x => x.UserName == tenant.AdminEmail /*&& x.TenantId == tenant.Id*/);
+            var adminUser = await userManager.Users.FirstOrDefaultAsync();
 
             if (adminUser == null && adminRole != null)
             {
                 adminUser = new UserAccount 
                 {
-                    UserName = tenant.AdminEmail,
-                    Email = tenant.AdminEmail,
+                    UserName = "admin",
+                    Email = "admin@gmail.com",
                     FirstName = "Admin",
                     LastName = "Admin",
                     PhoneNumber = "0123456789",
@@ -208,7 +188,7 @@ namespace Master.Data
             }
         }
 
-        internal static async Task SeedDefaultSettingsAsync(MasterDbContext context, Tenant tenant)
+        internal static async Task SeedDefaultSettingsAsync(MasterDbContext context/*, Tenant tenant*/)
         {
             var save = false;
             foreach (var setting in SettingDefaults.Defaults)

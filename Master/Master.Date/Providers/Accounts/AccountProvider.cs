@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using Master.Data.Models;
+using Azure.Core;
+using Master.Data.Models.Account;
+using Master.Data.Models.Role;
 using Master.Domain.Accounts;
+using Master.Domain.Authorization;
 using Master.Shared;
 using Master.Shared.Exceptions;
 using Microsoft.AspNetCore.Identity;
@@ -19,21 +23,33 @@ namespace Master.Data.Providers.Accounts
 {
     internal class AccountProvider : GenericProvider<UserAccount>, IAccountProvider
     {
+
+        private readonly UserManager<UserAccount> _userManager;
+        private readonly RoleManager<UserRole> _roleManager;
         private readonly IMapper _mapper;
         private readonly IStringLocalizer _localizer;
 
+        //private readonly ILoggerProvider _logger;
+
         public AccountProvider(MasterDbContext dbContext,
+            UserManager<UserAccount> userManager,
+            RoleManager<UserRole> roleManager,
             IMapper mapper,
+            //NLog.ILogger logger,
             IStringLocalizerFactory factory)
         {
             DbContext = dbContext;
+            _userManager = userManager;
             _mapper = mapper;
+            //_logger = logger;
+            _roleManager = roleManager;
+
             _localizer = factory.Create(typeof(CommonResource));
         }
 
         public async Task<UserAccountDomain> LoginAsync(string username, string password)
         {
-            var userEntity = await ActiveDbSet.Where(u => u.UserName == username).FirstOrDefaultAsync();
+            var userEntity = await ActiveDbSet.Include(x=>x.UserRoles).Where(u => u.UserName == username).FirstOrDefaultAsync();
 
             if (userEntity == null) throw new EntityNotFoundException(nameof(UserAccount), username);
 
@@ -59,6 +75,49 @@ namespace Master.Data.Providers.Accounts
                 Role = userEntity.UserRoles.FirstOrDefault()?.Name
             };
 
+        }
+
+        public async Task<RegistrationResult> RegisterAsync(RegisterInputCommand command)
+        {
+            var userRole = await _roleManager.Roles.FirstAsync(x => x.Name == StaticRoleNames.Passenger);
+
+            var userAccount = new UserAccount
+            {
+                UserName = command.Email,
+                Email = command.Email,
+                FirstName = command.FirstName,
+                LastName = command.LastName,
+                PhoneNumber = command.PhoneNumber,
+                PhoneNumberConfirmed = true,
+                IsActive = true,
+                IsCodeConfirmed = false,
+                UserRoles = new List<UserRole>()
+            };
+
+            userAccount.UserRoles.Add(userRole);
+
+            // userAccount.ConfirmationCode = await _userManager.GenerateTwoFactorTokenAsync(userAccount, TokenProvider);
+
+            var identityResult = await _userManager.CreateAsync(userAccount, command.Password);
+
+            var result = new RegistrationResult(identityResult.Succeeded);
+            if (!result.Succeeded)
+            {
+                result.Errors.AddRange(identityResult.Errors.Select(x => x.Description));
+                //_logger.Error(@$"Unsuccessful attempt to register new patient user ( {command.Email}).
+                //     Errors: {string.Join(", ", result.Errors)}");
+            }
+
+            result.Id = userAccount.Id;
+
+            return result;
+        }
+
+        public async Task<UserAccountDomain> FindUserAsync(string email)
+        {           
+            var user = await ActiveDbSet.FirstOrDefaultAsync(x => x.Email == email);
+
+            return _mapper.Map<UserAccountDomain>(user);
         }
 
         public static string HashPassword(string password)
@@ -138,6 +197,7 @@ namespace Master.Data.Providers.Accounts
                 && (!opts.RequireUppercase || u > 0)
                 && (!opts.RequireNonAlphanumeric || s > 0);
         }
+
         public static string GenerateRandomPassword(PasswordOptions opts = null)
         {
             if (opts == null) opts = new PasswordOptions()
@@ -186,6 +246,5 @@ namespace Master.Data.Providers.Accounts
 
             return new string(chars.ToArray());
         }
-
     }
 }

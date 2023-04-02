@@ -3,7 +3,8 @@ using Master.Common.Filters;
 using Master.Common.Middlewares;
 using Master.Configuration.Authorization;
 using Master.Data;
-using Master.Data.Models;
+using Master.Data.Models.Account;
+using Master.Data.Models.Role;
 using Master.Domain.Settings;
 using Master.Shared;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -12,8 +13,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Globalization;
+using System.Text;
 
 namespace Master.Configuration
 {
@@ -90,11 +93,20 @@ namespace Master.Configuration
                 .AddDefaultTokenProviders();
 
             services.AddAuthentication("Bearer")
-                .AddJwtBearer("Bearer", opt =>
+                .AddJwtBearer("Bearer", options =>
                 {
-                    //opt.RequireHttpsMetadata = false;
-                    //opt.Authority = configuration["IdentityServer:Authority"];
-                    //opt.Audience = Constants.WebScopeName;
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = configuration["JWT:Issuer"],
+                        ValidAudience = configuration["JWT:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Key"]))
+
+                    };
                 }); 
 
             services.AddSingleton<IAuthorizationMiddlewareResultHandler, FailedAuthorizationWrapperHandler>();

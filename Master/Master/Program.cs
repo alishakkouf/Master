@@ -33,17 +33,19 @@ builder.Services.ConfigureApiIdentity(configuration);
 builder.Services.AddSwaggerDocumentation();
 
 builder.Services.AddHealthChecks();
-builder.Services.ConfigureDataModule(configuration);
+
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
-var scope = app.Services.CreateScope();
+var scope = app.Services.CreateAsyncScope();
 ILoggerManager logger = scope.ServiceProvider.GetService<ILoggerManager>();
 
 IWebHostEnvironment env = app.Environment;
+
+await app.MigrateAndSeedDatabaseAsync();
 
 app.UseSwaggerDocumentation(configuration);
 
@@ -56,6 +58,8 @@ app.UseCors("CorsPolicy");
 app.UseStaticFiles();
 
 app.UseRequestLocalization();
+
+await app.MigrateAndSeedDatabaseAsync();
 
 app.UseResultWrapper();
 

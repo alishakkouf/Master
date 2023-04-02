@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.15" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.4">
@@ -28,6 +29,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Master.Domain\Master.Domain.csproj" />
+    <ProjectReference Include="..\Master.Manager\Master.Manager.csproj" />
     <ProjectReference Include="..\Master.Shared\Master.Shared.csproj" />
   </ItemGroup>
 

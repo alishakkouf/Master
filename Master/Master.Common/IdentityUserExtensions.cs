@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Security.Claims;
 using Master.Shared;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Master.Common
 {
@@ -10,7 +11,8 @@ namespace Master.Common
         public static int? GetUserId(this ClaimsPrincipal user)
         {
             var id = user?.FindFirst(ClaimTypes.NameIdentifier);
-            return string.IsNullOrEmpty(id.Value) ? (int?)null : int.Parse(id.Value);
+
+            return id == null ? null : int.Parse(id.Value);
         }
 
         public static string GetUserName(this ClaimsPrincipal user)
@@ -30,7 +32,7 @@ namespace Master.Common
         public static bool IsWithoutRole(this ClaimsPrincipal user)
         {
             var role = user?.FindFirst(ClaimTypes.Role);
-            return string.IsNullOrEmpty(role.Value);
+            return role == null;
         }
     }
 }
