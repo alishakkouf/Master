@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Master.Data.Models.Role;
+using Master.Data.Models.Trips;
 using Master.Domain.MultyTenants;
 using Master.Shared.Enums;
 using Microsoft.AspNetCore.Identity;
@@ -53,5 +54,6 @@ namespace Master.Data.Models.Account
         public DateTime? ConfirmationCodeEndDate { get; set; }
 
         internal virtual ICollection<UserRole> UserRoles { get; set; } = new HashSet<UserRole>();
+        internal virtual ICollection<BookedTrip> BookedTrips { get; set; } = new HashSet<BookedTrip>();
     }
 }

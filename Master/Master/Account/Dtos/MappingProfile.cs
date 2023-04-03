@@ -8,6 +8,7 @@ namespace Master.Account.Dtos
         public MappingProfile()
         {
             CreateMap<RegisterInputDto, RegisterInputCommand>();
+            CreateMap<UserAccountDomain, UserAccountDto>();
         }
     }
 }

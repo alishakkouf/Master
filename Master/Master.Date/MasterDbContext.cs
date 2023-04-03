@@ -9,6 +9,7 @@ using Lila.Platform.Shared;
 using Master.Data.Models;
 using Master.Data.Models.Account;
 using Master.Data.Models.Role;
+using Master.Data.Models.Trips;
 using Master.Domain.MultyTenants;
 using Master.Shared;
 using Master.Shared.Enums;
@@ -24,6 +25,10 @@ namespace Master.Data
     {
         private static readonly List<string> HardDeletedList = new List<string> { nameof(UserRole) };
          
+        internal DbSet<Trip> Trips { get; set; }
+        internal DbSet<BookedTrip> BookedTrips { get; set; }
+        internal DbSet<PassengerSatisfication> PassengerSatisfication { get; set; }
+
         internal DbSet<Setting> Settings { get; set; }
         internal DbSet<Tenant> Tenants { get; set; }
         internal DbSet<AuditLog> AuditLogs { get; set; }

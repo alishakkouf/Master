@@ -27,8 +27,9 @@ namespace Master.Configuration
         /// </summary> 
         internal static IServiceCollection ConfigureApiControllers(this IServiceCollection services, IConfiguration configuration, string corsPolicyName)
         {
-            services.AddAutoMapper(typeof(Program));
-            
+            services.AddAutoMapper(typeof(Program).Assembly);
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             services.AddControllers(config =>
             { 
                 config.Filters.Add(new ValidationFilterAttribute());

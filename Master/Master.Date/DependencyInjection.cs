@@ -12,10 +12,13 @@ using Microsoft.Extensions.Logging;
 using Master.Domain.Accounts;
 using Master.Data.Providers.Accounts;
 using Master.Domain.Logging;
-using Master.Manager.Logging;
 using Master.Data.Models.Account;
-using Microsoft.AspNetCore.Builder;
 using Master.Data.Models.Role;
+using Microsoft.AspNetCore.Builder;
+using Master.Manager.Logging;
+using Master.Domain.Trips;
+using Master.Data.Providers.TripProvider;
+using Master.Data.Providers.BookTripProvider;
 
 namespace Master.Data
 {
@@ -54,19 +57,12 @@ namespace Master.Data
                     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<UserAccount>>();
                     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<UserRole>>();
 
-                    //await DbContextSeed.SeedOnlinePatientRoleAsync(context, roleManager);
                     await MasterDBContextSeed.SeedSuperAdminAsync(context, roleManager, userManager);
-                    //await DbContextSeed.SeedDefaultTenantAsync(context);
 
-                    //foreach (var tenant in await context.Tenants.Where(x => x.IsActive && x.IsDeleted != true).ToListAsync())
-                    //{
-                        await MasterDBContextSeed.SeedStaticRolesAsync(roleManager/*, tenant*/);
-                        await MasterDBContextSeed.SeedDefaultUserAsync(userManager, roleManager/*, tenant*/);
-                        await MasterDBContextSeed.SeedDefaultSettingsAsync(context/*, tenant*/);
-                        //await DbContextSeed.SeedDefaultChannelsAsync(context, tenant);
-                    //}
+                        await MasterDBContextSeed.SeedStaticRolesAsync(roleManager);
+                        await MasterDBContextSeed.SeedDefaultUserAsync(userManager, roleManager);
+                        await MasterDBContextSeed.SeedDefaultSettingsAsync(context);
 
-                    //await DbContextSeed.SeedHostSampleDataAsync(context);
                 }
             }
             catch (Exception ex)
@@ -81,8 +77,9 @@ namespace Master.Data
 
         private static void AddProviders(this IServiceCollection services)
         {
-            //services.AddTransient<ILegalDocumentProvider, LegalDocumentProvider>();
             services.AddTransient<IAccountProvider, AccountProvider>();
+            services.AddTransient<ITripProvider, TripProvider>();
+            services.AddTransient<IBookTripProvider, BookingProvider>();
             services.AddScoped<ILoggerManager, LoggerManager>();
 
         }

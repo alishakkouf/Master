@@ -45,12 +45,12 @@ namespace Master.Manager.Accounts
         {
             var existedUser = await _accountProvider.FindUserAsync(command.Email);
 
-            if (existedUser != null) throw new BusinessException(_localizer["ExistedOnlineEmail"]);
+            if (existedUser != null) throw new BusinessException(_localizer["ExistedEmail"]);
 
             var result = await _accountProvider.RegisterAsync(command);
 
             if (!result.Succeeded)
-                throw new BusinessException(_localizer["ErrorRegisteringNewPatient"]);
+                throw new BusinessException(_localizer["ErrorRegistering"]);
 
             return result;
         }

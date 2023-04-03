@@ -4,6 +4,7 @@ using Master.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Master.Data.Migrations
 {
     [DbContext(typeof(MasterDbContext))]
-    partial class MasterDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230403120055_AddUserTrip")]
+    partial class AddUserTrip
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -184,87 +187,6 @@ namespace Master.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AuditLogs");
-                });
-
-            modelBuilder.Entity("Master.Data.Models.PassengerSatisfication", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Age")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ArrivalDelayInMinutes")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ArrivalTime")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BaggageHandling")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CheckinService")
-                        .HasColumnType("int");
-
-                    b.Property<byte>("Class")
-                        .HasColumnType("tinyint");
-
-                    b.Property<int>("Cleanliness")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DepartureDelayInMinutes")
-                        .HasColumnType("int");
-
-                    b.Property<int>("EaseOfBooking")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FlightDistance")
-                        .HasColumnType("int");
-
-                    b.Property<int>("FoodAndDrink")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GateLocation")
-                        .HasColumnType("int");
-
-                    b.Property<byte>("Gender")
-                        .HasColumnType("tinyint");
-
-                    b.Property<int>("InflightEntertainment")
-                        .HasColumnType("int");
-
-                    b.Property<int>("InflightService")
-                        .HasColumnType("int");
-
-                    b.Property<int>("LegRoomService")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OnBoardService")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OnlineBoarding")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SeatComfort")
-                        .HasColumnType("int");
-
-                    b.Property<byte>("TypeOfTravel")
-                        .HasColumnType("tinyint");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("WifiService")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("PassengerSatisfication");
                 });
 
             modelBuilder.Entity("Master.Data.Models.Role.UserRole", b =>
@@ -566,17 +488,6 @@ namespace Master.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
-                });
-
-            modelBuilder.Entity("Master.Data.Models.PassengerSatisfication", b =>
-                {
-                    b.HasOne("Master.Data.Models.Account.UserAccount", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Master.Data.Models.Trips.BookedTrip", b =>
