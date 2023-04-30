@@ -9,11 +9,8 @@ namespace Master.Domain.Accounts
     public interface IAccountProvider
     {
         /// <summary>
-        /// 
+        /// sign in the user.
         /// </summary>
-        /// <param name="username"></param>
-        /// <param name="password"></param>
-        /// <returns></returns>
         Task<UserAccountDomain> LoginAsync(string username, string password);
 
         /// <summary>

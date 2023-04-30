@@ -115,7 +115,7 @@ namespace Master.Data.Providers.Accounts
 
         public async Task<UserAccountDomain> FindUserAsync(string email)
         {           
-            var user = await ActiveDbSet.FirstOrDefaultAsync(x => x.Email == email);
+            var user = await ActiveDbSet.FirstOrDefaultAsync(x => x.Email == email && x.IsDeleted != true);
 
             return _mapper.Map<UserAccountDomain>(user);
         }
