@@ -16,4 +16,10 @@
     <ProjectReference Include="..\Master.Domain\Master.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="DataTest\z.xlsx">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

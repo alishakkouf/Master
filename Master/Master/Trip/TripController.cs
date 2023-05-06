@@ -2,6 +2,7 @@
 using Master.Account.Dtos;
 using Master.Common;
 using Master.Domain.Accounts;
+using Master.Domain.Authorization;
 using Master.Domain.Logging;
 using Master.Domain.Trips;
 using Master.Manager.Accounts;
@@ -43,6 +44,7 @@ namespace Master.Trip
         /// <summary>
         ///Create trips
         /// </summary>
+        [Authorize(Permissions.Trip.Create)]
         [HttpPost("Create")]
         public async Task<ActionResult<TripDto>> CreateAsync([FromBody] CreateTripRequestDto input)
         {
@@ -54,7 +56,7 @@ namespace Master.Trip
         /// <summary>
         ///Book trip
         /// </summary>
-        [Authorize]
+        [Authorize(Permissions.Trip.Book)]
         [HttpPost("BookTrip")]
         public async Task<ActionResult> BookTripAsync([FromBody] BookTripRequestDto input)
         {
@@ -66,7 +68,7 @@ namespace Master.Trip
         /// <summary>
         ///Book trip
         /// </summary>
-        [Authorize]
+        [Authorize(Permissions.Trip.View)]
         [HttpGet("GetMyTrips")]
         public async Task<ActionResult<List<UserTripDto>>> GetMyTripsAsync()
         {

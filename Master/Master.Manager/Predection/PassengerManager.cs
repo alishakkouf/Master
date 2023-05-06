@@ -154,6 +154,7 @@ namespace Master.Manager.Predection
             Console.WriteLine("\nEnd naive Bayes demo ");
             Console.ReadLine();
 
+            
             return new PassengerOpinionDomain
             {
                 Satisfied = probs[0],

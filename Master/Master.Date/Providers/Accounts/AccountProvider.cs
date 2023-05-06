@@ -101,6 +101,7 @@ namespace Master.Data.Providers.Accounts
             var identityResult = await _userManager.CreateAsync(userAccount, command.Password);
 
             var result = new RegistrationResult(identityResult.Succeeded);
+
             if (!result.Succeeded)
             {
                 result.Errors.AddRange(identityResult.Errors.Select(x => x.Description));
@@ -115,7 +116,7 @@ namespace Master.Data.Providers.Accounts
 
         public async Task<UserAccountDomain> FindUserAsync(string email)
         {           
-            var user = await ActiveDbSet.FirstOrDefaultAsync(x => x.Email == email && x.IsDeleted != true);
+            var user = await ActiveDbSet.Include(x=>x.UserRoles).FirstOrDefaultAsync(x => x.Email == email && x.IsDeleted != true);
 
             return _mapper.Map<UserAccountDomain>(user);
         }

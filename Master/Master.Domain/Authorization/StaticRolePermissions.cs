@@ -19,7 +19,8 @@ namespace Master.Domain.Authorization
                     StaticRoleNames.Passenger,
                     new []
                     {
-                        Permissions.Appointment.View,
+                        Permissions.Trip.View,
+                        Permissions.Trip.Book,
 
                     }
                 }

@@ -30,17 +30,5 @@ namespace Master.Account.Dtos
         [Required(ErrorMessage = "Required")]
         [RegularExpression(Constants.EmailRegularExpression, ErrorMessage = "InvalidEmailFormat")]
         public string Email { get; set; }
-
-        //public DateTime? DateOfBirth { get; set; }
-
-        //public string CountryName { get; set; }
-
-        //public string City { get; set; }
-
-        //public string Street { get; set; }
-
-        //public string Building { get; set; }
-
-        //public string PostalCode { get; set; }
     }
 }

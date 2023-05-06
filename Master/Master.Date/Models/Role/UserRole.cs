@@ -19,8 +19,6 @@ namespace Master.Data.Models.Role
 
         public bool IsActive { get; set; } = true;
 
-        public bool IsDoctor { get; set; }
-
         public long? CreatorUserId { get; set; }
 
         public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;

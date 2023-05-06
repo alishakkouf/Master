@@ -132,31 +132,6 @@ namespace Master.Data
             }
         }
 
-        //internal static async Task SeedDefaultChannelsAsync(MasterDbContext context, Tenant tenant)
-        //{
-        //    var save = false;
-
-        //    var channels = await context.Channels.IgnoreQueryFilters().Where(x => x.TenantId == tenant.Id).ToListAsync();
-
-        //    if (!channels.Any(x => x.Name == Constants.DefaultChannel))
-        //    {
-        //        await context.Channels.AddAsync(new Channel
-        //        {
-        //            Name = Constants.DefaultChannel,
-        //            IconRelativePath = "Channels/icon1.svg",
-        //            IconType = Shared.Enums.ChannelIconType.Icon1,
-        //            TenantId = tenant.Id
-        //        });
-
-        //        save = true;
-        //    }
-
-        //    //Todo Add other default channels
-
-        //    if (save)
-        //        await context.SaveChangesAsync();
-        //}
-
         internal static async Task SeedDefaultUserAsync(UserManager<UserAccount> userManager, RoleManager<UserRole> roleManager/*, Tenant tenant*/)
         {
             var adminRole = await roleManager.Roles.IgnoreQueryFilters()
@@ -173,15 +148,7 @@ namespace Master.Data
                     FirstName = "Admin",
                     LastName = "Admin",
                     PhoneNumber = "0123456789",
-                    IsActive = true,
-                    //TenantId = tenant.Id, 
-                    //EmployeeInfo = new Employee
-                    //{
-                    //    IsDoctor = false,
-                    //    PinNumber = 1,
-                    //    IsActive = true,
-                    //    TenantId = tenant.Id
-                    //}
+                    IsActive = true
                 };
                 adminUser.UserRoles.Add(adminRole);
                 await userManager.CreateAsync(adminUser, Constants.DefaultPassword);
@@ -204,108 +171,5 @@ namespace Master.Data
             if (save) 
                 await context.SaveChangesAsync();
         }
-
-        //internal static async Task SeedHostSampleDataAsync(MasterDbContext context) 
-        //{
-        //    var save = false;
-        //    if (!context.Countries.Any(x => x.Name == Constants.GermanyCountryName))
-        //    {
-        //        await context.Countries.AddAsync(new Models.Indices.Country { Name = Constants.GermanyCountryName });
-        //        save = true;
-        //    }
-
-        //    if (!context.Categories.Any())
-        //    {
-        //        await context.Categories.AddAsync(new Models.Indices.Category { Name = Constants.DefaultCategoryName });
-        //        save = true;
-        //    }
-
-        //    //if (!context.Channels.Any())
-        //    //{
-        //    //    await SeedChannelsAsync(context);
-        //    //}
-
-        //    if (save)
-        //        await context.SaveChangesAsync();
-        //}
-
-        //private static async Task SeedChannelsAsync(MasterDbContext context)
-        //{
-        //    if (!context.Channels.Any(x => x.Id == Constants.OtherChannelId))
-        //    {
-        //        await context.Database.OpenConnectionAsync();
-        //        try
-        //        {
-        //            await context.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT dbo.Channels ON");
-
-        //            var channel = new Channel
-        //            {
-        //                Id = Constants.OtherChannelId,
-        //                Name = Constants.OtherChannel,
-        //                IconRelativePath = "Other.png"
-        //            };
-
-        //            await context.Channels.AddAsync(channel);
-        //            await context.SaveChangesAsync();
-        //            await context.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT dbo.Channels OFF");
-        //        }
-        //        finally
-        //        {
-        //            await context.Database.CloseConnectionAsync();
-        //        }
-        //    }
-
-        //    var save = false;
-        //    if (!context.Channels.Any(x => x.Name == Constants.DefaultChannel))
-        //    {
-        //        await context.Channels.AddAsync(new Models.Indices.Channel { Name = Constants.DefaultChannel, IconRelativePath = "Direct.png" });
-        //        save = true;
-        //    }
-
-        //    if (!context.Channels.Any(x => x.Name == Constants.FacebookChannel))
-        //    {
-        //        await context.Channels.AddAsync(new Models.Indices.Channel { Name = Constants.FacebookChannel, IconRelativePath = "Facebook.png" });
-        //        save = true;
-        //    }
-
-        //    if (!context.Channels.Any(x => x.Name == Constants.YoutubeChannel))
-        //    {
-        //        await context.Channels.AddAsync(new Models.Indices.Channel { Name = Constants.YoutubeChannel, IconRelativePath = "Youtube.png" });
-        //        save = true;
-        //    }
-
-        //    if (!context.Channels.Any(x => x.Name == Constants.InstagramChannel))
-        //    {
-        //        await context.Channels.AddAsync(new Models.Indices.Channel { Name = Constants.InstagramChannel, IconRelativePath = "Instagram.png" });
-        //        save = true;
-        //    }
-
-        //    if (!context.Channels.Any(x => x.Name == Constants.TwitterChannel))
-        //    {
-        //        await context.Channels.AddAsync(new Models.Indices.Channel { Name = Constants.TwitterChannel, IconRelativePath = "Twitter.png" });
-        //        save = true;
-        //    }
-
-        //    if (!context.Channels.Any(x => x.Name == Constants.GoogleChannel))
-        //    {
-        //        await context.Channels.AddAsync(new Models.Indices.Channel { Name = Constants.GoogleChannel, IconRelativePath = "Google.png" });
-        //        save = true;
-        //    }
-
-        //    if (!context.Channels.Any(x => x.Name == Constants.TiktokChannel))
-        //    {
-        //        await context.Channels.AddAsync(new Models.Indices.Channel { Name = Constants.TiktokChannel, IconRelativePath = "Tiktok.png" });
-        //        save = true;
-        //    }
-
-        //    if (!context.Channels.Any(x => x.Name == Constants.RecommendedChannel))
-        //    {
-        //        await context.Channels.AddAsync(new Models.Indices.Channel { Name = Constants.RecommendedChannel, IconRelativePath = "Recommended.png" });
-        //        save = true;
-        //    }
-
-        //    if (save)
-        //        await context.SaveChangesAsync();
-        //}
     }
 }
