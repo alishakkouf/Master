@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Master.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class AddIdentityModels : Migration
+    public partial class initDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,7 +19,6 @@ namespace Master.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    IsDoctor = table.Column<bool>(type: "bit", nullable: false),
                     CreatorUserId = table.Column<long>(type: "bigint", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     ModifierUserId = table.Column<long>(type: "bigint", nullable: true),
@@ -44,8 +43,6 @@ namespace Master.Data.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    PhoneCountryCode = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    ImageRelativePath = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
                     Gender = table.Column<byte>(type: "tinyint", nullable: true),
                     CreatorUserId = table.Column<long>(type: "bigint", nullable: true),
@@ -131,6 +128,26 @@ namespace Master.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tenants", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Trips",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    From = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    To = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatorUserId = table.Column<long>(type: "bigint", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifierUserId = table.Column<long>(type: "bigint", nullable: true),
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Trips", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -239,6 +256,77 @@ namespace Master.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "PassengerSatisfication",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Gender = table.Column<byte>(type: "tinyint", nullable: false),
+                    Age = table.Column<int>(type: "int", nullable: false),
+                    TypeOfTravel = table.Column<byte>(type: "tinyint", nullable: false),
+                    Class = table.Column<byte>(type: "tinyint", nullable: false),
+                    FlightDistance = table.Column<int>(type: "int", nullable: false),
+                    WifiService = table.Column<int>(type: "int", nullable: false),
+                    ArrivalTime = table.Column<int>(type: "int", nullable: false),
+                    EaseOfBooking = table.Column<int>(type: "int", nullable: false),
+                    GateLocation = table.Column<int>(type: "int", nullable: false),
+                    FoodAndDrink = table.Column<int>(type: "int", nullable: false),
+                    OnlineBoarding = table.Column<int>(type: "int", nullable: false),
+                    SeatComfort = table.Column<int>(type: "int", nullable: false),
+                    InflightEntertainment = table.Column<int>(type: "int", nullable: false),
+                    OnBoardService = table.Column<int>(type: "int", nullable: false),
+                    LegRoomService = table.Column<int>(type: "int", nullable: false),
+                    BaggageHandling = table.Column<int>(type: "int", nullable: false),
+                    CheckinService = table.Column<int>(type: "int", nullable: false),
+                    InflightService = table.Column<int>(type: "int", nullable: false),
+                    Cleanliness = table.Column<int>(type: "int", nullable: false),
+                    DepartureDelayInMinutes = table.Column<int>(type: "int", nullable: false),
+                    ArrivalDelayInMinutes = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PassengerSatisfication", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_PassengerSatisfication_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BookedTrips",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    TripId = table.Column<int>(type: "int", nullable: false),
+                    CreatorUserId = table.Column<long>(type: "bigint", nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    ModifierUserId = table.Column<long>(type: "bigint", nullable: true),
+                    ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BookedTrips", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BookedTrips_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BookedTrips_Trips_TripId",
+                        column: x => x.TripId,
+                        principalTable: "Trips",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -270,6 +358,21 @@ namespace Master.Data.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BookedTrips_TripId",
+                table: "BookedTrips",
+                column: "TripId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BookedTrips_UserId",
+                table: "BookedTrips",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PassengerSatisfication_UserId",
+                table: "PassengerSatisfication",
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -294,6 +397,12 @@ namespace Master.Data.Migrations
                 name: "AuditLogs");
 
             migrationBuilder.DropTable(
+                name: "BookedTrips");
+
+            migrationBuilder.DropTable(
+                name: "PassengerSatisfication");
+
+            migrationBuilder.DropTable(
                 name: "Settings");
 
             migrationBuilder.DropTable(
@@ -301,6 +410,9 @@ namespace Master.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Trips");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

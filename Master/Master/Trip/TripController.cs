@@ -54,6 +54,18 @@ namespace Master.Trip
         }
 
         /// <summary>
+        ///update trips
+        /// </summary>
+        [Authorize(Permissions.Trip.Update)]
+        [HttpPost("Update")]
+        public async Task<ActionResult<TripDto>> UpdateAsync([FromBody] UpdateTripRequestDto input)
+        {
+            var result = await _tripManager.UpdateAsync(_mapper.Map<UpdateTripCommand>(input));
+
+            return Ok(_mapper.Map<TripDto>(result));
+        }
+
+        /// <summary>
         ///Book trip
         /// </summary>
         [Authorize(Permissions.Trip.Book)]
@@ -66,7 +78,7 @@ namespace Master.Trip
         }
 
         /// <summary>
-        ///Book trip
+        ///get user trips
         /// </summary>
         [Authorize(Permissions.Trip.View)]
         [HttpGet("GetMyTrips")]

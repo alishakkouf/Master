@@ -14,5 +14,7 @@ namespace Master.Domain.Trips
         Task<List<TripDomain>> GetAllAsync(TripsListCommand command);
 
         Task<TripDomain> CreateAsync(CreateTripCommand command);
+
+        Task<TripDomain> UpdateAsync(UpdateTripCommand command);
     }
 }

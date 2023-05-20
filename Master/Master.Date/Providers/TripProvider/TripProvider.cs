@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -44,6 +45,24 @@ namespace Master.Data.Providers.TripProvider
             await DbContext.SaveChangesAsync();
 
             return _mapper.Map<TripDomain>(toBeCreated);
+        }
+
+        public async Task<TripDomain> UpdateAsync(UpdateTripCommand command)
+        {
+            var data = await ActiveDbSet.FirstOrDefaultAsync(x => x.Id == command.Id);
+
+            if (data == null)
+            {
+                throw new EntityNotFoundException(nameof(Trip), command.Id.ToString());
+            }
+
+            data.From = command.From;
+            data.To = command.To;
+            data.Date = command.Date;        
+
+            await DbContext.SaveChangesAsync();
+
+            return _mapper.Map<TripDomain>(data);
         }
 
         public async Task<TripDomain> GetAsync(int id)

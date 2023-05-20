@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,8 +26,8 @@ namespace Master.Manager.Predection
 
         public async Task<PassengerOpinionDomain> GetPassengerOpinion(GetPassengerOpinionDomain input)
         {
-            int nx = 23;  // number predictors (gender, age, class..)
-            int nc = 2;  // number classes (satisfied and dissatisfied)
+            int numberOfProperties = 23;  // number predictors (gender, age, class..)
+            int numberOfClases = 2;  // number classes (satisfied and dissatisfied)
 
             // Supported spreadsheet formats for reading include: XLSX, XLS, CSV and TSV
             WorkBook workbook = WorkBook.Load("D:\\Master\\Master\\Master.Manager\\DataTest\\z.xlsx");
@@ -34,9 +35,9 @@ namespace Master.Manager.Predection
             //to read specific sheet
             var worksheet = workbook.WorkSheets.First();
 
-            int n =/* worksheet.Rows.Count();  number data items = //*/ 39;
+            int datasetSize = worksheet.Rows.Count(); /* number data items = //*/ /*39;*/
 
-            string[][] data = new string[n][]; // get from csv
+            string[][] data = new string[datasetSize][]; // get from csv
 
             var ignorFirstRow = true;
 
@@ -53,7 +54,7 @@ namespace Master.Manager.Predection
                 data[index] = new string[] { };
 
                 var xxxx = new string[23];
-                for (int i = 0; i < nx; i++)
+                for (int i = 0; i < numberOfProperties; i++)
                 {
                     xxxx[i] = row.Columns[i].ToString();
                    
@@ -65,11 +66,11 @@ namespace Master.Manager.Predection
 
 
 
-            int[][] jointCounts = new int[nx][];
-            for (int i = 0; i < nx; ++i)
-                jointCounts[i] = new int[nc];
+            int[][] jointCounts = new int[numberOfProperties][];
+            for (int i = 0; i < numberOfProperties; ++i)
+                jointCounts[i] = new int[numberOfClases];
 
-            int[] yCounts = new int[nc];
+            int[] yCounts = new int[numberOfClases];
 
             string[] X = new string[] 
             { 
@@ -102,19 +103,22 @@ namespace Master.Manager.Predection
             Console.WriteLine("\nItem to classify: ");
             Console.WriteLine(X);
 
-            for (int i = 0; i < n; ++i)
+            for (int i = 0; i < datasetSize; ++i)
             {   // compute joint counts
-                int y = int.Parse(data[i][nx-1]);  // get the class as int
+                int y = int.Parse(data[i][numberOfProperties-1]);  // get the class as int
                 ++yCounts[y];
-                for (int j = 0; j < nx; ++j)
+
+                Array.Sort(yCounts);
+
+                for (int j = 0; j < numberOfProperties; ++j)
                 {
                     if (data[i][j] == X[j])
                         ++jointCounts[j][y];
                 }
             }
 
-            for (int i = 0; i < nx; ++i)  // Laplacian smoothing
-                for (int j = 0; j < nc; ++j)
+            for (int i = 0; i < numberOfProperties; ++i)  // Laplacian smoothing
+                for (int j = 0; j < numberOfClases; ++j)
                     ++jointCounts[i][j];
 
             Console.WriteLine("\nJoint counts (smoothed): ");
@@ -126,13 +130,13 @@ namespace Master.Manager.Predection
             ShowVector(yCounts);
 
             // compute evidence terms
-            double[] eTerms = new double[nc];
-            for (int k = 0; k < nc; ++k)
+            double[] eTerms = new double[numberOfClases];
+            for (int k = 0; k < numberOfClases; ++k)
             {
                 double v = 1.0;  // direct approach
-                for (int j = 0; j < nx; ++j)
-                    v *= (jointCounts[j][k] * 1.0) / (yCounts[k] + nx);
-                v *= (yCounts[k] * 1.0) /n;
+                for (int j = 0; j < numberOfProperties; ++j)
+                    v *= (jointCounts[j][k] * 1.0) / (yCounts[k] + numberOfProperties);
+                v *= (yCounts[k] * 1.0) /datasetSize;
                 eTerms[k] = v;
 
             }
@@ -141,11 +145,11 @@ namespace Master.Manager.Predection
             ShowVector(eTerms);
 
             double evidence = 0.0;
-            for (int k = 0; k < nc; ++k)
+            for (int k = 0; k < numberOfClases; ++k)
                 evidence += eTerms[k];
 
-            double[] probs = new double[nc];
-            for (int k = 0; k < nc; ++k)
+            double[] probs = new double[numberOfClases];
+            for (int k = 0; k < numberOfClases; ++k)
                 probs[k] = eTerms[k] / evidence;
 
             Console.WriteLine("\nPseudo-probabilities each class: ");

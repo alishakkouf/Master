@@ -30,14 +30,14 @@ namespace Master.Shared
 
         public const string SuperAdminRoleName = "SuperAdmin";
         public const string SuperAdminUserName = "SuperAdmin";
-        public const string SuperAdminEmail = "superadmin@yolo-clinic.de";
+        public const string SuperAdminEmail = "Administrator";
 
         /// <summary>
         /// Id of the first seeded tenant
         /// </summary>
         public const int DefaultTenantId = 1;
-        public const string DefaultTenantAdmin = "Administrator@yolo-clinic.de";
-        public const string DefaultTenantDomain = "yolo-clinic.de";
+        public const string DefaultTenantAdmin = "Administrator";
+        public const string DefaultTenantDomain = "Administrator";
 
         public const string UploadsFolderName = "Uploads";
         public const string ImagesFolderName = "Images";

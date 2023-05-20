@@ -8,7 +8,7 @@ namespace Master.Domain.Accounts
 {
     public class RegisterInputCommand
     {
-        public int? Id { get; set; }
+        //public int? Id { get; set; }
 
         public string FirstName { get; set; }
 

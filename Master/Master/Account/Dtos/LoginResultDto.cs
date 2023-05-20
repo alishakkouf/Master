@@ -11,5 +11,7 @@
         /// The bearer access token (expiration equals ExpiresIn)
         /// </summary>
         public string AccessToken { get; set; }
+
+        public bool IsAdmin { get; set; }
     }
 }

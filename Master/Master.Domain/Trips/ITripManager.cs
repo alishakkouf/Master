@@ -13,6 +13,8 @@ namespace Master.Domain.Trips
 
         Task<TripDomain> CreateAsync(CreateTripCommand command);
 
+        Task<TripDomain> UpdateAsync(UpdateTripCommand command);
+
         Task BookTripAsync(BookTripCommand command);
 
         Task<List<UserTripDomain>> GetMyTripsAsync();

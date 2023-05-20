@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Master.Data.Migrations
 {
     [DbContext(typeof(MasterDbContext))]
-    [Migration("20230403130033_AddPassengerSatisfication")]
-    partial class AddPassengerSatisfication
+    [Migration("20230520135754_initDb")]
+    partial class initDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -297,9 +297,6 @@ namespace Master.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool?>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDoctor")
                         .HasColumnType("bit");
 
                     b.Property<DateTime?>("ModifiedAt")

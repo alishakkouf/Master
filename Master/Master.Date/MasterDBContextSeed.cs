@@ -137,7 +137,7 @@ namespace Master.Data
             var adminRole = await roleManager.Roles.IgnoreQueryFilters()
                 .FirstOrDefaultAsync(x => x.Name == StaticRoleNames.Administrator/* && x.TenantId == tenant.Id*/);
 
-            var adminUser = await userManager.Users.FirstOrDefaultAsync();
+            var adminUser = await userManager.Users.Include(x=>x.UserRoles).Where(x=>x.UserRoles.First().Name == StaticRoleNames.Administrator).FirstOrDefaultAsync();
 
             if (adminUser == null && adminRole != null)
             {

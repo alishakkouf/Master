@@ -51,6 +51,11 @@ namespace Master.Manager.TripsManager
             return await _tripProvider.CreateAsync(command);
         }
 
+        public async Task<TripDomain> UpdateAsync(UpdateTripCommand command)
+        {
+            return await _tripProvider.UpdateAsync(command);
+        }
+
         public async Task<List<TripDomain>> GetAllAsync(TripsListCommand command)
         {
            return await _tripProvider.GetAllAsync(command);

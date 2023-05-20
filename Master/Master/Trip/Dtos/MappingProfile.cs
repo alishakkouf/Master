@@ -8,6 +8,7 @@ namespace Master.Trip.Dtos
         public MappingProfile()
         {
             CreateMap<CreateTripRequestDto, CreateTripCommand>();
+            CreateMap<UpdateTripRequestDto, UpdateTripCommand>();
 
             CreateMap<TripDomain, TripDto>();
 

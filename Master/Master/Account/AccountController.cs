@@ -62,17 +62,5 @@ namespace Master.Account
 
             return Ok();
         }
-
-        /// <summary>
-        /// Get access token via username and password
-        /// </summary>
-        [Authorize]
-        [HttpPost("test")]
-        public async Task<ActionResult> testAsync([FromBody] LoginInputDto input)
-        {
-            _logger.LogInfo("start login");
-
-            return Ok();
-        }
     }
 }
