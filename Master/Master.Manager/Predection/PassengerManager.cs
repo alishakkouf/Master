@@ -30,12 +30,12 @@ namespace Master.Manager.Predection
             int numberOfClases = 2;  // number classes (satisfied and dissatisfied)
 
             // Supported spreadsheet formats for reading include: XLSX, XLS, CSV and TSV
-            WorkBook workbook = WorkBook.Load("D:\\Master\\Master\\Master.Manager\\DataTest\\z.xlsx");
+            WorkBook workbook = WorkBook.Load("D:\\Master\\Master\\Master.Manager\\DataTest\\test.xlsx");
 
             //to read specific sheet
             var worksheet = workbook.WorkSheets.First();
 
-            int datasetSize = worksheet.Rows.Count(); /* number data items = //*/ /*39;*/
+            int datasetSize = worksheet.Rows.Count() - 1; 
 
             string[][] data = new string[datasetSize][]; // get from csv
 
@@ -108,8 +108,6 @@ namespace Master.Manager.Predection
                 int y = int.Parse(data[i][numberOfProperties-1]);  // get the class as int
                 ++yCounts[y];
 
-                Array.Sort(yCounts);
-
                 for (int j = 0; j < numberOfProperties; ++j)
                 {
                     if (data[i][j] == X[j])
@@ -156,13 +154,13 @@ namespace Master.Manager.Predection
             ShowVector(probs);
 
             Console.WriteLine("\nEnd naive Bayes demo ");
-            Console.ReadLine();
+            //Console.ReadLine();
 
             
             return new PassengerOpinionDomain
             {
-                Satisfied = probs[0],
-                Disatisfied = probs[1]
+                Satisfied = probs[1],
+                Disatisfied = probs[0]
             };
         } // Main
 

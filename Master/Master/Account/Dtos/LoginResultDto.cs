@@ -12,6 +12,8 @@
         /// </summary>
         public string AccessToken { get; set; }
 
+        public string Role => IsAdmin ? "Admin" : "";
+
         public bool IsAdmin { get; set; }
     }
 }
