@@ -41,7 +41,8 @@ namespace Master.Account
             var toBeReturned = new LoginResultDto
             {
                 AccessToken = result.AccessToken,
-                ExpiresIn= result.ExpiresIn                
+                ExpiresIn= result.ExpiresIn,
+                IsAdmin = result.Role == "Administrator"
             };
 
             return Ok(toBeReturned);

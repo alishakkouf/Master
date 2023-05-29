@@ -38,6 +38,7 @@ namespace Master.Manager.Accounts
                 UserId = user.Id
             }, Configuration);
 
+            token.Role = user.Role;
             return token;
         }
 

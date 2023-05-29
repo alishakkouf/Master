@@ -15,5 +15,7 @@ namespace Master.Domain.Accounts
         public bool Success { get; set; }
 
         public string Errors { get; set; }
+
+        public string Role { get; set; }
     }
 }

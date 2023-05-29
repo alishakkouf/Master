@@ -44,7 +44,7 @@ namespace Master.Trip
         /// <summary>
         ///Create trips
         /// </summary>
-        [Authorize(Permissions.Trip.Create)]
+        //[Authorize(Permissions.Trip.Create)]
         [HttpPost("Create")]
         public async Task<ActionResult<TripDto>> CreateAsync([FromBody] CreateTripRequestDto input)
         {
@@ -56,7 +56,7 @@ namespace Master.Trip
         /// <summary>
         ///update trips
         /// </summary>
-        [Authorize(Permissions.Trip.Update)]
+        //[Authorize(Permissions.Trip.Update)]
         [HttpPost("Update")]
         public async Task<ActionResult<TripDto>> UpdateAsync([FromBody] UpdateTripRequestDto input)
         {
@@ -68,7 +68,7 @@ namespace Master.Trip
         /// <summary>
         ///Book trip
         /// </summary>
-        [Authorize(Permissions.Trip.Book)]
+        //[Authorize(Permissions.Trip.Book)]
         [HttpPost("BookTrip")]
         public async Task<ActionResult> BookTripAsync([FromBody] BookTripRequestDto input)
         {
@@ -80,7 +80,7 @@ namespace Master.Trip
         /// <summary>
         ///get user trips
         /// </summary>
-        [Authorize(Permissions.Trip.View)]
+        //[Authorize(Permissions.Trip.View)]
         [HttpGet("GetMyTrips")]
         public async Task<ActionResult<List<UserTripDto>>> GetMyTripsAsync()
         {
