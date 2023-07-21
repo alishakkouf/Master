@@ -31,8 +31,8 @@ namespace Master.Passenger
         /// <summary>
         /// Get access token via username and password
         /// </summary>
-        [HttpGet("PassengerOpinion")]
-        public async Task<ActionResult<PassengerOpinionDto>> PassengerOpinionAsync([FromQuery] GetPassengerOpinionDto input)
+        [HttpPost("PassengerOpinion")]
+        public async Task<ActionResult<PassengerOpinionDto>> PassengerOpinionAsync( GetPassengerOpinionDto input)
         {
             var result = await _passengerManager.GetPassengerOpinion(_mapper.Map<GetPassengerOpinionDomain>(input));
 
