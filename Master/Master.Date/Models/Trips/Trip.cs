@@ -20,6 +20,10 @@ namespace Master.Data.Models.Trips
 
         public DateTime Date { get; set; }
 
+        public int NumOfSeats { get; set; }
+
+        public int AvailableNumOfSeats { get; set; }
+
         public long? CreatorUserId { get; set; }
 
         public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;

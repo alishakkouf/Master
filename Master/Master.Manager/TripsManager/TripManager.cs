@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Master.Domain.Accounts;
 using Master.Domain.Trips;
 using Master.Shared;
+using Master.Shared.Exceptions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
 using static System.Formats.Asn1.AsnWriter;
@@ -34,6 +35,11 @@ namespace Master.Manager.TripsManager
         public async Task BookTripAsync(BookTripCommand command)
         {
            var trip = await _tripProvider.GetAsync(command.TripId);
+
+            if (trip.AvailableNumOfSeats == 0)
+            {
+                throw new BusinessException(_localizer["There is no available seats!!"]);
+            }
 
            var userId = _currentUserService.GetUserId();
 

@@ -7,5 +7,7 @@
         public string To { get; set; }
 
         public DateTime Date { get; set; }
+
+        public int NumOfSeats { get; set; }
     }
 }

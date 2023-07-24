@@ -34,6 +34,9 @@ namespace Master.Data.Providers.BookTripProvider
                UserId= userId
            };
 
+            var trip = await DbContext.Trips.FirstOrDefaultAsync(x=>x.Id == id);
+            trip.AvailableNumOfSeats -= 1;
+
             await DbContext.BookedTrips.AddAsync(toBeCreated);
             await DbContext.SaveChangesAsync();
         }

@@ -38,7 +38,9 @@ namespace Master.Data.Providers.TripProvider
             {
                 From = command.From,
                 To = command.To,
-                Date= command.Date
+                Date= command.Date,
+                NumOfSeats = command.NumOfSeats,
+                AvailableNumOfSeats= command.AvailableNumOfSeats,
             };
 
             await DbContext.Trips.AddAsync(toBeCreated);
