@@ -61,6 +61,7 @@ namespace Master.Data.Providers.TripProvider
             data.From = command.From;
             data.To = command.To;
             data.Date = command.Date;        
+            data.NumOfSeats = command.NumOfSeats;        
 
             await DbContext.SaveChangesAsync();
 

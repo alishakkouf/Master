@@ -15,5 +15,7 @@ namespace Master.Domain.Trips
         public string To { get; set; }
 
         public DateTime Date { get; set; }
+
+        public int NumOfSeats { get; set; }
     }
 }
